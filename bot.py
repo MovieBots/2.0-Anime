@@ -204,12 +204,10 @@ async def source_post(u,c):
  if not msg or not SOURCE_CHANNEL_ID or str(msg.chat_id)!=SOURCE_CHANNEL_ID: return
  # Telegram channel updates arrive as channel_post; index only supported media posts.
  if msg.video or msg.document or msg.audio: await handle_video(u,c)
-async def main():
+def main():
  if not TOKEN: raise RuntimeError('Set BOT_TOKEN environment variable')
  db().close(); app=Application.builder().token(TOKEN).build()
  app.add_handler(CommandHandler('start',start)); app.add_handler(CommandHandler('help',help_cmd)); app.add_handler(CommandHandler('search',search_cmd)); app.add_handler(CommandHandler('episodes',episodes_cmd)); app.add_handler(CommandHandler('add',add_cmd)); app.add_handler(CommandHandler('stats',stats)); app.add_handler(CommandHandler('admin',admin_panel)); app.add_handler(CommandHandler('settings',admin_panel)); app.add_handler(CommandHandler('admins',admin_panel))
  app.add_handler(CallbackQueryHandler(callbacks)); app.add_handler(MessageHandler(filters.UpdateType.CHANNEL_POST,source_post)); app.add_handler(MessageHandler(filters.VIDEO|filters.Document.ALL|filters.AUDIO,handle_video)); app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND,text_handler))
  log.info('Polling started'); app.run_polling(drop_pending_updates=False)
-if __name__ == "__main__":
-    import asyncio
-    asyncio.run(main())
+if __name__ == '__main__': main()
