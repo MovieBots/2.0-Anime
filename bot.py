@@ -210,4 +210,6 @@ async def main():
  app.add_handler(CommandHandler('start',start)); app.add_handler(CommandHandler('help',help_cmd)); app.add_handler(CommandHandler('search',search_cmd)); app.add_handler(CommandHandler('episodes',episodes_cmd)); app.add_handler(CommandHandler('add',add_cmd)); app.add_handler(CommandHandler('stats',stats)); app.add_handler(CommandHandler('admin',admin_panel)); app.add_handler(CommandHandler('settings',admin_panel)); app.add_handler(CommandHandler('admins',admin_panel))
  app.add_handler(CallbackQueryHandler(callbacks)); app.add_handler(MessageHandler(filters.UpdateType.CHANNEL_POST,source_post)); app.add_handler(MessageHandler(filters.VIDEO|filters.Document.ALL|filters.AUDIO,handle_video)); app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND,text_handler))
  log.info('Polling started'); app.run_polling(drop_pending_updates=False)
-if __name__=='__main__': main()
+if __name__ == "__main__":
+    import asyncio
+    asyncio.run(main())
